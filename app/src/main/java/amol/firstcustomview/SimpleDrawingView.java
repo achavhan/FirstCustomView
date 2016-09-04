@@ -4,8 +4,13 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Amol on 04-09-2016.
@@ -15,12 +20,15 @@ public class SimpleDrawingView extends View {
     private final int paintColor = Color.BLACK;
     // defines paint and canvas
     private Paint drawPaint;
+    // Store circles to draw each time the user touches down
+    private List<Point> circlePoints;
 
     public SimpleDrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setFocusable(true);
         setFocusableInTouchMode(true);
         setupPaint();
+        circlePoints = new ArrayList<Point>();
     }
 
     // Setup paint with color and stroke styles
@@ -29,8 +37,8 @@ public class SimpleDrawingView extends View {
         drawPaint.setColor(paintColor);
         drawPaint.setAntiAlias(true);
         drawPaint.setStrokeWidth(5);
-        drawPaint.setStyle(Paint.Style.STROKE);
-        drawPaint.setStrokeJoin(Paint.Join.ROUND);
+        // drawPaint.setStyle(Paint.Style.STROKE);
+        drawPaint.setStyle(Paint.Style.FILL); // change to fill        drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
     }
 
@@ -38,11 +46,20 @@ public class SimpleDrawingView extends View {
     // Let's draw three circles
     @Override
     protected void onDraw(Canvas canvas) {
-        canvas.drawCircle(50, 50, 20, drawPaint);
-        drawPaint.setColor(Color.GREEN);
-        canvas.drawCircle(50, 150, 20, drawPaint);
-        drawPaint.setColor(Color.BLUE);
-        canvas.drawCircle(50, 250, 20, drawPaint);
+        for (Point p : circlePoints) {
+            canvas.drawCircle(p.x, p.y, 5, drawPaint);
+        }
+    }
+
+    // Append new circle each time user presses on screen
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float touchX = event.getX();
+        float touchY = event.getY();
+        circlePoints.add(new Point(Math.round(touchX), Math.round(touchY)));
+        // indicate view should be redrawn
+        postInvalidate();
+        return true;
     }
 
 
