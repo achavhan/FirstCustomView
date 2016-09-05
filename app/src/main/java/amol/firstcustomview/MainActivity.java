@@ -27,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         dp = new DrawPanel(this);
         dp.setOnTouchListener(this);
