@@ -9,26 +9,33 @@ import android.util.TypedValue;
  * Created by Amol on 04-09-2016.
  */
 public class DeviceDimensionsHelper {
+
+    static Context context;
+
+    public DeviceDimensionsHelper(Context context) {
+        DeviceDimensionsHelper.context = context;
+    }
+
     // DeviceDimensionsHelper.getDisplayWidth(context) => (display width in pixels)
-    public static int getDisplayWidth(Context context) {
+    public int getDisplayWidth() {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return displayMetrics.widthPixels;
     }
 
     // DeviceDimensionsHelper.getDisplayHeight(context) => (display height in pixels)
-    public static int getDisplayHeight(Context context) {
+    public int getDisplayHeight() {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return displayMetrics.heightPixels;
     }
 
     // DeviceDimensionsHelper.convertDpToPixel(25f, context) => (25dp converted to pixels)
-    public static float convertDpToPixel(float dp, Context context) {
+    public float convertDpToPixel(float dp) {
         Resources r = context.getResources();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
     }
 
     // DeviceDimensionsHelper.convertPixelsToDp(25f, context) => (25px converted to dp)
-    public static float convertPixelsToDp(float px, Context context) {
+    public float convertPixelsToDp(float px) {
         Resources r = context.getResources();
         DisplayMetrics metrics = r.getDisplayMetrics();
         float dp = px / (metrics.densityDpi / 160f);
